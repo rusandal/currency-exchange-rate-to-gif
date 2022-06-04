@@ -1,10 +1,5 @@
 package ru.minikhanov.valuetogif.service;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import feign.FeignException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.minikhanov.valuetogif.model.CurrencyInfo;
@@ -14,7 +9,6 @@ import ru.minikhanov.valuetogif.utils.ApiClientGiphyService;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @Service
 public class MyService {

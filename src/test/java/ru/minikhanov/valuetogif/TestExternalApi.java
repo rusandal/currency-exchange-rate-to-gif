@@ -4,18 +4,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import ru.minikhanov.valuetogif.model.CurrencyInfo;
 import ru.minikhanov.valuetogif.model.GiphyInfo;
 import ru.minikhanov.valuetogif.service.MyService;
 import ru.minikhanov.valuetogif.utils.ApiClientCurrencyExchangeService;
 import ru.minikhanov.valuetogif.utils.ApiClientGiphyService;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 @AutoConfigureMockMvc
 @SpringBootTest

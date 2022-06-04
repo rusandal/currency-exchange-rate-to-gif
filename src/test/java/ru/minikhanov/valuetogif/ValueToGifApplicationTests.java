@@ -16,8 +16,6 @@ import ru.minikhanov.valuetogif.model.CurrencyInfo;
 import ru.minikhanov.valuetogif.model.GiphyInfo;
 import ru.minikhanov.valuetogif.utils.ApiClientCurrencyExchangeService;
 import ru.minikhanov.valuetogif.utils.ApiClientGiphyService;
-
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -27,10 +25,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 @SpringBootTest
 class ValueToGifApplicationTests {
-    @Value("${myapp.currency.key}")
-    private String currencyApiKey;
-    @Value("${myapp.giphy.key}")
-    private String giphyApiKey;
     @Value("${myapp.basecurrency}")
     private String baseCurrency;
     private static CurrencyInfo currencyInfoOnDate = new CurrencyInfo();
@@ -44,7 +38,7 @@ class ValueToGifApplicationTests {
     private ApiClientCurrencyExchangeService apiClientCurrencyExchangeService;
 
     @BeforeAll
-    public static void setData(){
+    public static void setData() {
         Map<String, Double> ratesOnDate = new HashMap<>();
         Map<String, Double> ratesLatest = new HashMap<>();
         ratesOnDate.put("EUR", 0.93);
@@ -57,13 +51,15 @@ class ValueToGifApplicationTests {
         giphyInfo.setId("123");
         giphyInfo.setUrl("https://media2.giphy.com/media/zWD9ER5oJLzgkPjV5v/200_d.gif?cid=d6df192568413d85d22be296e848000512c1b68580b2a998&rid=200_d.gif&ct=g");
     }
+
     @Test
-    void contextLoads() {   }
+    void contextLoads() {
+    }
 
 
     @Test
     public void endpointGetTest() throws Exception {
-        String currency = "EUR";
+        String currency = baseCurrency;
         Mockito.when(apiClientCurrencyExchangeService.getCurrencyExchangeOnDate(anyString(), anyString(), anyString(), anyString())).thenReturn(currencyInfoOnDate);
         Mockito.when(apiClientCurrencyExchangeService.getLatestCurrencyExchange(anyString(), anyString(), anyString())).thenReturn(currencyInfoLatet);
         Mockito.when(apiClientGiphyService.getGif(anyString(), anyString())).thenReturn(giphyInfo);
