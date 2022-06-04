@@ -3,6 +3,7 @@ package ru.minikhanov.valuetogif.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import feign.FeignException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,16 +35,25 @@ public class MyService {
 
     public String getGif(String currency) {
         String yesterday = LocalDate.now().minusDays(1).format(DateTimeFormatter.ISO_DATE);
-        CurrencyInfo yesterdayCurrencyInfo = apiClientCurrencyExchangeService.getCurrencyExchangeOnDate(yesterday, currencyApiKey, currency, baseCurrency);
-        CurrencyInfo latestCurrencyInfo = apiClientCurrencyExchangeService.getLatestCurrencyExchange(currencyApiKey, currency, baseCurrency);
-        double yesterdayRate = latestCurrencyInfo.getRates().get(currency);
-        double latestRate = yesterdayCurrencyInfo.getRates().get(currency);
+        CurrencyInfo yesterdayCurrencyInfo;
+        CurrencyInfo latestCurrencyInfo;
         GiphyInfo giphyInfo;
-        if(yesterdayRate<latestRate){
-            giphyInfo = apiClientGiphyService.getGif(giphyApiKey, "rich");
-        }
-        else {
-            giphyInfo = apiClientGiphyService.getGif(giphyApiKey, "broke");
+        try {
+            yesterdayCurrencyInfo = apiClientCurrencyExchangeService.getCurrencyExchangeOnDate(yesterday, currencyApiKey, currency, baseCurrency);
+            latestCurrencyInfo = apiClientCurrencyExchangeService.getLatestCurrencyExchange(currencyApiKey, currency, baseCurrency);
+            if (yesterdayCurrencyInfo.getRates().isEmpty() || latestCurrencyInfo.getRates().isEmpty()) {
+                throw new RuntimeException("Currency info is empty. Please check currency name.");
+            }
+            double yesterdayRate = latestCurrencyInfo.getRates().get(currency);
+            double latestRate = yesterdayCurrencyInfo.getRates().get(currency);
+
+            if (yesterdayRate < latestRate) {
+                giphyInfo = apiClientGiphyService.getGif(giphyApiKey, "rich");
+            } else {
+                giphyInfo = apiClientGiphyService.getGif(giphyApiKey, "broke");
+            }
+        } catch (FeignException fex) {
+            throw new RuntimeException("External service is broken. Status " + fex.status());
         }
         return giphyInfo.getUrl();
 

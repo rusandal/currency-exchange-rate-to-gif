@@ -9,7 +9,7 @@ import ru.minikhanov.valuetogif.model.CurrencyInfo;
 @FeignClient(value = "${myapp.feign.currencyexchange.config.name}", url = "${myapp.feign.currencyexchange.config.url}")
 public interface ApiClientCurrencyExchangeService {
     @GetMapping("/latest.json")
-    CurrencyInfo getLatestCurrencyExchange(@RequestParam(value = "app_id") String appId, String currency,@RequestParam(value = "base") String baseCurrency);
+    CurrencyInfo getLatestCurrencyExchange(@RequestParam(value = "app_id") String appId, @RequestParam(value = "symbols") String currency, @RequestParam(value = "base") String baseCurrency);
     @GetMapping("/historical/{date}.json")
-    CurrencyInfo getCurrencyExchangeOnDate(@PathVariable String date, @RequestParam(value = "app_id") String appId, String currency, @RequestParam(value = "base") String baseCurrency);
+    CurrencyInfo getCurrencyExchangeOnDate(@PathVariable String date, @RequestParam(value = "app_id") String appId, @RequestParam(value = "symbols") String currency, @RequestParam(value = "base") String baseCurrency);
 }
