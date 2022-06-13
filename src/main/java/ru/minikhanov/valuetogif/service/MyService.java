@@ -50,6 +50,5 @@ public class MyService {
             throw new RuntimeException("External service is broken. Status " + fex.status());
         }
         return giphyInfo.getUrl();
-
     }
 }

@@ -1,10 +1,11 @@
 ## Сервис выводящий Gif в зависимости от разницы курса валют вчера и сегодня
-Стек: Spring Boot Web, Feign, Thymeleaf, JUnit, Mockito, Docker, Lombok
+Стек: Spring Boot Web, Feign, Thymeleaf, JUnit, Mockito, Docker, Lombok, Telegram Bot
 ### Описание
 REST сервис получающий запрос на вывод картинки в зависимости от изменения отношения курса запрошенной валюты в отношении к доллару вчера и сегодня. Если курс по отношению к USD за сегодня стал выше вчерашнего, то отображает рандомную отсюда https://giphy.com/search/rich ... если ниже - отсюда https://giphy.com/search/broke.
-Курс валют получаем с помощью запроса REST API - https://docs.openexchangerates.org/
+Курс валют получаем с помощью запроса REST API - https://docs.openexchangerates.org/ или с помощью телеграм бота.
 
-![](./img/rich.png) USD ![](./img/broke.png)
+![](./img/rich.png) USD ![](./img/broke.png) 
+
 ### Запуск
 1. Создаем Docker контейнер с программой.
 ```
@@ -28,3 +29,13 @@ docker ps -a
 http://127.0.0.1:8080/EUR
 ```
 Ура видим картинку в браузере
+
+### Telegram bot
+Для привязки телеграм бота необходимо указать его имя и токен в application.properties. Зарегистрировать новый бот очень легко. ) Своего я открепил
+```
+myapp.telegram.bot.name=
+myapp.telegram.bot.token=
+```
+Он начинает отвечать сразу же после запуска программы ... даже при запуске из среды разработки.
+
+![image](./img/telegram.png)
